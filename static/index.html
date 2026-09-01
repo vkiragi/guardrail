@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guardrail — decision log</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0; padding: 24px;
+      font: 15px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f1115; color: #e6e6e6;
+    }
+    header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px; }
+    h1 { font-size: 20px; margin: 0; }
+    .sub { color: #8a8f98; font-size: 13px; }
+    .status { margin: 8px 0 16px; color: #8a8f98; font-size: 12px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 8px 10px; vertical-align: top; }
+    th { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #8a8f98; border-bottom: 1px solid #2a2e37; }
+    tbody tr { border-bottom: 1px solid #1c2027; }
+    tr.approved { background: rgba(46, 160, 67, .12); }
+    tr.blocked  { background: rgba(218, 54, 51, .12); }
+    .tag { font-weight: 600; font-size: 12px; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+    .tag.approved { background: #2ea043; color: #fff; }
+    .tag.blocked  { background: #da3633; color: #fff; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; color: #b8bcc4; }
+    .reason { color: #cfd3da; }
+    .empty { color: #8a8f98; padding: 24px 10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Guardrail</h1>
+    <span class="sub">pre-trade decision log</span>
+  </header>
+  <div class="status" id="status">loading…</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th><th>Symbol</th><th>Side</th><th>Qty</th>
+        <th>Rationale</th><th>Decision</th><th>Reason</th><th>Order</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <script>
+    const rowsEl = document.getElementById("rows");
+    const statusEl = document.getElementById("status");
+
+    function timeOf(ts) {
+      const d = new Date(ts);
+      return isNaN(d) ? ts : d.toLocaleTimeString();
+    }
+    function esc(s) {
+      return (s == null ? "" : String(s)).replace(/[&<>]/g, c =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+    }
+
+    function render(decisions) {
+      if (!decisions.length) {
+        rowsEl.innerHTML = '<tr><td class="empty" colspan="8">No decisions yet.</td></tr>';
+        return;
+      }
+      rowsEl.innerHTML = decisions.map(d => {
+        const ok = d.allowed === 1;
+        const cls = ok ? "approved" : "blocked";
+        const tag = ok ? "APPROVED" : "BLOCKED";
+        const order = d.order_id ? esc(d.order_id).slice(0, 8) : "—";
+        return `<tr class="${cls}">
+          <td class="mono">${esc(timeOf(d.ts))}</td>
+          <td>${esc(d.symbol)}</td>
+          <td>${esc(d.side)}</td>
+          <td class="mono">${esc(d.qty)}</td>
+          <td class="reason">${esc(d.rationale)}</td>
+          <td><span class="tag ${cls}">${tag}</span></td>
+          <td class="reason">${esc(d.reason)}</td>
+          <td class="mono">${order}</td>
+        </tr>`;
+      }).join("");
+    }
+
+    async function poll() {
+      try {
+        const r = await fetch("/api/decisions");
+        const data = await r.json();
+        render(data);
+        statusEl.textContent = `${data.length} decisions · updated ${new Date().toLocaleTimeString()}`;
+      } catch (e) {
+        statusEl.textContent = "connection lost, retrying…";
+      }
+    }
+
+    poll();
+    setInterval(poll, 3000);
+  </script>
+</body>
+</html>
