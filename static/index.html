@@ -81,10 +81,21 @@
       }).join("");
     }
 
-    async function poll() {
+    async function fetchDecisions() {
+      // Live server first; on a static host (no backend) fall back to the snapshot.
       try {
         const r = await fetch("/api/decisions");
-        const data = await r.json();
+        if (r.ok && (r.headers.get("content-type") || "").includes("application/json")) {
+          return await r.json();
+        }
+      } catch (e) { /* no server — use the snapshot */ }
+      const r = await fetch("./decisions.json");
+      return await r.json();
+    }
+
+    async function poll() {
+      try {
+        const data = await fetchDecisions();
         render(data);
         statusEl.textContent = `${data.length} decisions · updated ${new Date().toLocaleTimeString()}`;
       } catch (e) {
