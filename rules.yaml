@@ -1,0 +1,16 @@
+rules:
+  - id: daily_drawdown_halt
+    max_drawdown_pct: 3.0
+    reason: "Account down {drawdown:.1f}% today, above the 3% halt threshold."
+
+  - id: symbol_allowlist
+    allowed: [AAPL, MSFT, SPY, NVDA, TSLA, BTC/USD, ETH/USD]
+    reason: "{symbol} is not on the approved list."
+
+  - id: no_close_window
+    minutes_before_close: 10
+    reason: "Market closes in under 10 minutes."
+
+  - id: max_position_pct
+    max_pct: 20.0
+    reason: "Order would take {symbol} to {resulting_pct:.1f}% of portfolio, above the 20% cap."
