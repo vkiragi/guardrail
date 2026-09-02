@@ -18,8 +18,9 @@ These are not preferences. Do not violate them, and do not propose violating the
 1. **Paper trading only.** `TradingClient(..., paper=True)` is hardcoded. Never
    parameterize it, never read it from config, never set it False.
 2. **Dependencies are frozen.** alpaca-py, openai, fastapi, uvicorn, pyyaml,
-   python-dotenv, pytest. Nothing else. If you believe a package is needed, stop
-   and ask. Do not install it and mention it afterward.
+   python-dotenv, pytest, plus the Alpaca CLI (`brew install alpacahq/tap/cli`,
+   a system tool, not a pip package). Nothing else. If you believe a package is
+   needed, stop and ask. Do not install it and mention it afterward.
 3. **Secrets come from `.env` via python-dotenv.** Never write a key, token, or
    account id into a source file, a test, a comment, or an example.
 4. **No new files** outside the structure below without asking first.
@@ -33,6 +34,37 @@ These are not preferences. Do not violate them, and do not propose violating the
    Local commits are fine when I ask for them. Anything that leaves my machine
    needs me to say yes first, every time. Do not treat earlier permission as
    standing permission.
+8. **Never set `ALPACA_LIVE_TRADE`.** The Alpaca CLI defaults to paper trading.
+   Setting `ALPACA_LIVE_TRADE=true` routes orders to live. Never set it, never
+   suggest it. This is hard rule 1 restated for the CLI.
+9. **Never source `.env` in the shell.** No `. ./.env`, no `set -a; . ./.env`.
+   Load secrets with python-dotenv and pass the environment to the subprocess.
+   Shell sourcing has already leaked a secret key into terminal output once.
+10. **No test orders on the hackathon account.** Every order that lands there is
+    part of the judged P&L record. Use `--dry-run`, or exercise paths the
+    guardrail blocks. Never place throwaway orders on the submission account.
+
+## Hackathon requirements
+
+From the lablab.ai event page. Missing any of these risks disqualification, so
+they outrank taste, elegance, and any earlier scope decision in this file.
+
+**Submission deadline: Friday 4 September 2026, 8:00 AM PDT.**
+
+Core requirements:
+
+- Autonomous AI trading agent built on Alpaca's Trading API.
+- Must use Alpaca's MCP server or its CLI. We use the CLI.
+- Every strategy must incorporate options trading. Stocks alone do not qualify.
+- Must run on a brand new paper account dedicated to this hackathon, starting
+  balance $100,000. A reused account is not eligible for judging.
+
+Judged on, in this order: P&L performance, technology implementation (Alpaca
+API, MCP, CLI), creativity and originality, presentation, social engagement.
+
+Submission bundle: title, short and long description, tags, cover image, video,
+slide deck, public GitHub repo, demo URL, the Alpaca paper account ID, and a one
+page write-up covering AI logic, risk gates, and Alpaca infrastructure.
 
 ## Forbidden scope
 
@@ -134,3 +166,9 @@ in the demo video, so they must read as plain English.
   broken on camera. A logged refusal looks like a system handling failure.
 - `gpt-5.6-luna` is a reasoning model. Function tools on `chat.completions`
   require `reasoning_effort='none'`, or the request 400s.
+- Sourcing `.env` in the shell leaked a secret key into terminal output. A
+  pasted key had a stray space in it, so zsh treated the rest as a command.
+  Load with python-dotenv and pass `os.environ` to the subprocess instead.
+- A fresh Alpaca paper account already comes with options level 3. Check
+  `options_approved_level` rather than assuming options need an upgrade.
+- f-strings on Python 3.11 cannot contain a backslash inside the expression.
