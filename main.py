@@ -78,6 +78,7 @@ def _trade(symbol: str, dry_run: bool) -> None:
         return
 
     contract = broker.pick_contract(symbol, direction)
+    limit_price = round(contract["price"] * 1.05, 2)  # cap what we pay at the open
     proposal = Proposal(
         symbol=contract["symbol"],
         side="buy",
@@ -87,16 +88,16 @@ def _trade(symbol: str, dry_run: bool) -> None:
         multiplier=100,
         days_to_expiry=contract["days_to_expiry"],
     )
-    state = broker.get_state(contract["symbol"], last_price=contract["price"])
+    state = broker.get_state(contract["symbol"], last_price=limit_price)
     verdict = evaluate(proposal, state)
     row_id = log.write_decision(proposal, verdict)
 
     print(
-        f"{symbol}: {direction} -> {contract['symbol']} @ {contract['price']:.2f} "
-        f"(${contract['price'] * 100:,.0f} notional, {contract['days_to_expiry']}d)"
+        f"{symbol}: {direction} -> {contract['symbol']} ask {contract['price']:.2f} "
+        f"limit {limit_price:.2f} (${limit_price * 100:,.0f} max, {contract['days_to_expiry']}d)"
     )
     if verdict.allowed:
-        order_id = executor.place(proposal, dry_run=dry_run)
+        order_id = executor.place(proposal, limit_price=limit_price, dry_run=dry_run)
         log.set_order_id(row_id, order_id)
         print(f"  APPROVED — order {order_id}")
     else:
