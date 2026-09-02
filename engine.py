@@ -16,10 +16,13 @@ _RULES_PATH = Path(__file__).parent / "rules.yaml"
 
 @dataclass
 class Proposal:
-    symbol: str
+    symbol: str  # stock ticker, or an OCC option contract symbol
     side: str  # "buy" | "sell"
-    qty: float
+    qty: float  # shares, or contracts for an option
     rationale: str
+    underlying: str = ""  # "AAPL" for an option; the allowlist checks this
+    multiplier: int = 1  # 100 for an option contract
+    days_to_expiry: int | None = None  # None for a stock
 
 
 @dataclass
@@ -52,8 +55,21 @@ def _check_daily_drawdown_halt(p, s, rule):
 
 
 def _check_symbol_allowlist(p, s, rule):
-    if p.symbol not in rule["allowed"]:
-        return rule["reason"].format(symbol=p.symbol)
+    name = p.underlying or p.symbol
+    if name not in rule["allowed"]:
+        return rule["reason"].format(symbol=name)
+    return None
+
+
+def _check_min_days_to_expiry(p, s, rule):
+    if p.days_to_expiry is not None and p.days_to_expiry < rule["min_days"]:
+        return rule["reason"].format(days=p.days_to_expiry, min_days=rule["min_days"])
+    return None
+
+
+def _check_max_contracts_per_order(p, s, rule):
+    if p.multiplier > 1 and p.qty > rule["max_contracts"]:
+        return rule["reason"].format(qty=p.qty, max_contracts=rule["max_contracts"])
     return None
 
 
@@ -67,15 +83,18 @@ def _check_max_position_pct(p, s, rule):
     if p.side != "buy":
         return None
     current = s.positions.get(p.symbol, 0.0)
-    resulting_pct = (current + p.qty * s.last_price) / s.equity * 100
+    resulting_pct = (current + p.qty * s.last_price * p.multiplier) / s.equity * 100
     if resulting_pct > rule["max_pct"]:
-        return rule["reason"].format(symbol=p.symbol, resulting_pct=resulting_pct)
+        name = p.underlying or p.symbol
+        return rule["reason"].format(symbol=name, resulting_pct=resulting_pct)
     return None
 
 
 _CHECKS = {
     "daily_drawdown_halt": _check_daily_drawdown_halt,
     "symbol_allowlist": _check_symbol_allowlist,
+    "min_days_to_expiry": _check_min_days_to_expiry,
+    "max_contracts_per_order": _check_max_contracts_per_order,
     "no_close_window": _check_no_close_window,
     "max_position_pct": _check_max_position_pct,
 }

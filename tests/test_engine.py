@@ -114,6 +114,62 @@ def test_sell_skips_max_position():
     assert v.allowed is True
 
 
+# --- options ------------------------------------------------------------
+
+def option(underlying="AAPL", qty=1.0, dte=30, side="buy",
+           symbol="AAPL260918C00230000") -> Proposal:
+    """An option proposal: qty is contracts, each worth 100x the quoted price."""
+    return Proposal(symbol=symbol, side=side, qty=qty, rationale="test",
+                    underlying=underlying, multiplier=100, days_to_expiry=dte)
+
+
+def test_option_notional_uses_100x_multiplier_allowed():
+    # 2 contracts * $15 * 100 = $3,000 = 3% of equity
+    v = evaluate(option(qty=2), base_state(last_price=15.0))
+    assert v.allowed is True
+
+
+def test_option_notional_uses_100x_multiplier_blocked():
+    # 2 contracts * $120 * 100 = $24,000 = 24%, over the 20% cap
+    v = evaluate(option(qty=2), base_state(last_price=120.0))
+    assert v.allowed is False
+    assert v.rule_id == "max_position_pct"
+
+
+def test_allowlist_checks_underlying_not_contract_symbol():
+    # the OCC symbol is not on the allowlist, but its underlying AAPL is
+    v = evaluate(option(underlying="AAPL"), base_state(last_price=15.0))
+    assert v.allowed is True
+
+
+def test_allowlist_blocks_off_list_underlying():
+    v = evaluate(option(underlying="GME"), base_state(last_price=15.0))
+    assert v.allowed is False
+    assert v.rule_id == "symbol_allowlist"
+
+
+def test_short_dated_contract_is_blocked():
+    v = evaluate(option(dte=3), base_state(last_price=15.0))
+    assert v.allowed is False
+    assert v.rule_id == "min_days_to_expiry"
+
+
+def test_contract_at_expiry_minimum_is_allowed():
+    v = evaluate(option(dte=7), base_state(last_price=15.0))  # rule blocks below 7
+    assert v.allowed is True
+
+
+def test_too_many_contracts_blocked():
+    v = evaluate(option(qty=10), base_state(last_price=1.0))
+    assert v.allowed is False
+    assert v.rule_id == "max_contracts_per_order"
+
+
+def test_contracts_at_limit_allowed():
+    v = evaluate(option(qty=5), base_state(last_price=1.0))  # cap is 5, blocks above
+    assert v.allowed is True
+
+
 # --- ordering: first block wins -----------------------------------------
 
 def test_first_block_wins_drawdown_before_allowlist():

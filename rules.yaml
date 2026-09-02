@@ -7,6 +7,14 @@ rules:
     allowed: [AAPL, MSFT, SPY, NVDA, TSLA, BTC/USD, ETH/USD]
     reason: "{symbol} is not on the approved list."
 
+  - id: min_days_to_expiry
+    min_days: 7
+    reason: "Contract expires in {days} days, inside the {min_days} day minimum."
+
+  - id: max_contracts_per_order
+    max_contracts: 5
+    reason: "{qty:.0f} contracts is above the {max_contracts} contract limit per order."
+
   - id: no_close_window
     minutes_before_close: 10
     reason: "Market closes in under 10 minutes."

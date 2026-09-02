@@ -1,27 +1,26 @@
-"""Alpaca order placement. paper=True is hardcoded and stays that way.
+"""Order placement through the Alpaca CLI.
 
-Only approved proposals reach here. Stocks are placed as DAY market orders.
+Only proposals the guardrail approved reach here. The CLI defaults to paper and
+ALPACA_LIVE_TRADE is never set, so an order cannot reach a live account.
+Stocks and option contracts submit identically: the OCC contract symbol simply
+goes in as the symbol.
 """
-import os
-
-from alpaca.trading.client import TradingClient
-from alpaca.trading.enums import OrderSide, TimeInForce
-from alpaca.trading.requests import MarketOrderRequest
-
+from broker import cli
 from engine import Proposal
 
 
-def place(proposal: Proposal) -> str:
-    """Submit a market order for an approved proposal, return the order id."""
-    client = TradingClient(
-        os.environ["ALPACA_API_KEY"], os.environ["ALPACA_SECRET_KEY"], paper=True
-    )
-    order = client.submit_order(
-        MarketOrderRequest(
-            symbol=proposal.symbol,
-            qty=proposal.qty,
-            side=OrderSide.BUY if proposal.side == "buy" else OrderSide.SELL,
-            time_in_force=TimeInForce.DAY,
-        )
-    )
-    return str(order.id)
+def place(proposal: Proposal, dry_run: bool = False) -> str:
+    """Submit a day market order for an approved proposal, return the order id."""
+    qty = proposal.qty
+    args = [
+        "order", "submit",
+        "--symbol", proposal.symbol,
+        "--qty", str(int(qty) if float(qty).is_integer() else qty),
+        "--side", proposal.side,
+        "--type", "market",
+        "--time-in-force", "day",
+    ]
+    if dry_run:
+        args.append("--dry-run")
+    out = cli(*args)
+    return str(out.get("id", "dry-run"))
