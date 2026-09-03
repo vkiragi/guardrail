@@ -3,3 +3,11 @@
 __pycache__/
 *.pyc
 *.db
+
+# working notes, not for the public repo
+claude.md
+agents.md
+masterplan.md
+MASTERPLAN.md
+CLAUDE.md
+AGENTS.md
