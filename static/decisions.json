@@ -1,5 +1,41 @@
 [
   {
+    "id": 38,
+    "ts": "2026-09-03T11:25:57.483943+00:00",
+    "symbol": "NFLX",
+    "side": "buy",
+    "qty": 1000.0,
+    "rationale": "User requested to buy 1,000 shares of Netflix.",
+    "allowed": 0,
+    "reason": "NFLX is not on the approved list.",
+    "rule_id": "symbol_allowlist",
+    "order_id": null
+  },
+  {
+    "id": 37,
+    "ts": "2026-09-03T11:00:23.337326+00:00",
+    "symbol": "F",
+    "side": "buy",
+    "qty": 400.0,
+    "rationale": "User requested purchase of 400 Ford shares, citing that the stock looks cheap.",
+    "allowed": 0,
+    "reason": "F is not on the approved list.",
+    "rule_id": "symbol_allowlist",
+    "order_id": null
+  },
+  {
+    "id": 36,
+    "ts": "2026-09-03T10:59:16.109317+00:00",
+    "symbol": "GME",
+    "side": "buy",
+    "qty": 300.0,
+    "rationale": "User requested an immediate purchase of 300 GameStop shares; submitted for risk review.",
+    "allowed": 0,
+    "reason": "GME is not on the approved list.",
+    "rule_id": "symbol_allowlist",
+    "order_id": null
+  },
+  {
     "id": 35,
     "ts": "2026-09-03T10:36:46.102978+00:00",
     "symbol": "GME",
@@ -31,7 +67,7 @@
     "qty": 0.0,
     "rationale": "TSLA is up only 3.44% over the window with choppy closes, while the headlines are largely promotional or indirect and do not establish a clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: TSLA is up only 3.44% over the window with choppy closes, while the headlines are largely promotional or indirect and do not establish a clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -43,7 +79,7 @@
     "qty": 0.0,
     "rationale": "GOOGL\u2019s window shows a modest net decline with choppy, weakening price action, while the headlines are mostly indirect AI-industry developments and provide no clear near-term catalyst for a one-to-three-week single-leg option edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: GOOGL\u2019s window shows a modest net decline with choppy, weakening price action, while the headlines are mostly indirect AI-industry developments and provide no clear near-term catalyst for a one-to-three-week single-leg option edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -55,7 +91,7 @@
     "qty": 0.0,
     "rationale": "AMZN has declined modestly but with choppy, reversal-heavy price action, while the headlines are mixed and the DOJ probe adds uncertainty without a clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: AMZN has declined modestly but with choppy, reversal-heavy price action, while the headlines are mixed and the DOJ probe adds uncertainty without a clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -79,7 +115,7 @@
     "qty": 0.0,
     "rationale": "AMD\u2019s window shows a modest net decline with choppy, non-directional price action, while the headlines are mostly indirect or mixed, leaving no clear one-to-three-week edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: AMD\u2019s window shows a modest net decline with choppy, non-directional price action, while the headlines are mostly indirect or mixed, leaving no clear one-to-three-week edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -91,7 +127,7 @@
     "qty": 0.0,
     "rationale": "NVDA is modestly up over the window but highly volatile with mixed sector and competitive headlines, offering no clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: NVDA is modestly up over the window but highly volatile with mixed sector and competitive headlines, offering no clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -103,7 +139,7 @@
     "qty": 0.0,
     "rationale": "Despite a +3.26% net gain, the sharp reversal from 513.53 to 496.82 and mixed regulatory/reporting headlines create insufficient directional edge for a one-to-three-week single-leg option.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: Despite a +3.26% net gain, the sharp reversal from 513.53 to 496.82 and mixed regulatory/reporting headlines create insufficient directional edge for a one-to-three-week single-leg option.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -127,7 +163,7 @@
     "qty": 0.0,
     "rationale": "QQQ is essentially flat over the window with choppy closes, while the headlines are mixed and provide no clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: QQQ is essentially flat over the window with choppy closes, while the headlines are mixed and provide no clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -139,7 +175,7 @@
     "qty": 0.0,
     "rationale": "SPY is essentially flat over the window with choppy closes and mixed, mostly non-price-specific headlines, offering no clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: SPY is essentially flat over the window with choppy closes and mixed, mostly non-price-specific headlines, offering no clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -151,7 +187,7 @@
     "qty": 0.0,
     "rationale": "TSLA is modestly higher but volatile over the window, while the headlines are largely indirect or promotional and do not establish a clear one- to three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: TSLA is modestly higher but volatile over the window, while the headlines are largely indirect or promotional and do not establish a clear one- to three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -163,7 +199,7 @@
     "qty": 0.0,
     "rationale": "Despite a +3.49% net gain and a recent rebound, NVDA\u2019s choppy sequence and mixed broader AI/semiconductor headlines do not establish a clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: Despite a +3.49% net gain and a recent rebound, NVDA\u2019s choppy sequence and mixed broader AI/semiconductor headlines do not establish a clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -175,7 +211,7 @@
     "qty": 0.0,
     "rationale": "Despite a net gain, MSFT has reversed sharply from 513.53 to 496.82 while headlines mix strong Azure guidance with regulatory uncertainty and reporting changes, leaving no clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: Despite a net gain, MSFT has reversed sharply from 513.53 to 496.82 while headlines mix strong Azure guidance with regulatory uncertainty and reporting changes, leaving no clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -199,7 +235,7 @@
     "qty": 0.0,
     "rationale": "SPY is essentially flat over the window with choppy closes, while mixed headlines offer no clear near-term catalyst or directional edge for a one-to-three-week single-leg option.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: SPY is essentially flat over the window with choppy closes, while mixed headlines offer no clear near-term catalyst or directional edge for a one-to-three-week single-leg option.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -211,7 +247,7 @@
     "qty": 0.0,
     "rationale": "TSLA is up modestly but choppy over the window, while the headlines are mostly promotional or competitive and provide no clear one-to-three-week catalyst, so a single-leg option lacks a sufficient directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: TSLA is up modestly but choppy over the window, while the headlines are mostly promotional or competitive and provide no clear one-to-three-week catalyst, so a single-leg option lacks a sufficient directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -223,7 +259,7 @@
     "qty": 0.0,
     "rationale": "NVDA is modestly higher over the window but volatile and headline-driven, with mixed AI signals and no clear short-term directional edge for a one-to-three-week single-leg option.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: NVDA is modestly higher over the window but volatile and headline-driven, with mixed AI signals and no clear short-term directional edge for a one-to-three-week single-leg option.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -259,20 +295,8 @@
     "qty": 0.0,
     "rationale": "SPY is essentially flat over the window with choppy closes, while mixed geopolitical, Fed, and commodity headlines provide no clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: SPY is essentially flat over the window with choppy closes, while mixed geopolitical, Fed, and commodity headlines provide no clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
-    "order_id": null
-  },
-  {
-    "id": 11,
-    "ts": "2026-09-02T22:13:19.157654+00:00",
-    "symbol": "AAPL260909C00325000",
-    "side": "buy",
-    "qty": 1.0,
-    "rationale": "AAPL is in a clear short-term uptrend, gaining 4.39% with higher recent closes, while supportive analyst coverage and CEO/product catalysts provide a modest one-to-three-week bullish edge.",
-    "allowed": 1,
-    "reason": "Order approved.",
-    "rule_id": null,
     "order_id": null
   },
   {
@@ -283,7 +307,7 @@
     "qty": 0.0,
     "rationale": "TSLA is up modestly but choppy over the window, while the headlines are largely promotional or mixed and provide no clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: TSLA is up modestly but choppy over the window, while the headlines are largely promotional or mixed and provide no clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -295,7 +319,7 @@
     "qty": 0.0,
     "rationale": "Despite strong Azure and commercial-cloud guidance, MSFT\u2019s recent rally has reversed into a sharp pullback toward the window\u2019s lower end, leaving mixed near-term momentum and no clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: Despite strong Azure and commercial-cloud guidance, MSFT\u2019s recent rally has reversed into a sharp pullback toward the window\u2019s lower end, leaving mixed near-term momentum and no clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -307,7 +331,7 @@
     "qty": 0.0,
     "rationale": "SPY is essentially flat over the window with choppy closes, while mixed geopolitical, inflation, and policy headlines provide no clear one- to three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: SPY is essentially flat over the window with choppy closes, while mixed geopolitical, inflation, and policy headlines provide no clear one- to three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -319,7 +343,7 @@
     "qty": 0.0,
     "rationale": "TSLA\u2019s roughly flat, highly volatile price action and mixed headlines\u2014strong China deliveries and FSD claims offset by autonomy-competition concerns\u2014do not provide a clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: TSLA\u2019s roughly flat, highly volatile price action and mixed headlines\u2014strong China deliveries and FSD claims offset by autonomy-competition concerns\u2014do not provide a clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -331,7 +355,7 @@
     "qty": 0.0,
     "rationale": "NVDA\u2019s closes are volatile but essentially flat over the window, while the headlines are largely promotional or indirect, leaving no clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: NVDA\u2019s closes are volatile but essentially flat over the window, while the headlines are largely promotional or indirect, leaving no clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -343,7 +367,7 @@
     "qty": 0.0,
     "rationale": "MSFT\u2019s window shows a strong run-up followed by a sharp pullback, while mixed antitrust and AI-competition headlines provide no clear one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: MSFT\u2019s window shows a strong run-up followed by a sharp pullback, while mixed antitrust and AI-competition headlines provide no clear one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   },
@@ -355,7 +379,7 @@
     "qty": 0.0,
     "rationale": "AAPL has modest positive momentum, but the headlines are mixed and largely speculative without a clear near-term catalyst, so there is no strong one-to-three-week directional edge.",
     "allowed": 0,
-    "reason": "No clear directional edge; agent passed.",
+    "reason": "Agent passed: AAPL has modest positive momentum, but the headlines are mixed and largely speculative without a clear near-term catalyst, so there is no strong one-to-three-week directional edge.",
     "rule_id": "agent_skip",
     "order_id": null
   }
