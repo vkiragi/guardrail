@@ -21,7 +21,7 @@ from engine import Proposal, Verdict, evaluate
 
 load_dotenv()
 
-WATCHLIST = ["SPY", "AAPL", "MSFT", "NVDA", "TSLA"]
+WATCHLIST = ["SPY", "QQQ", "AAPL", "MSFT", "NVDA", "AMD", "META", "AMZN", "GOOGL", "TSLA"]
 
 
 def _log_refusal(symbol: str, reason: str, rule_id: str, rationale: str = "") -> None:

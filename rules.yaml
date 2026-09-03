@@ -4,7 +4,7 @@ rules:
     reason: "Account down {drawdown:.1f}% today, above the 3% halt threshold."
 
   - id: symbol_allowlist
-    allowed: [AAPL, MSFT, SPY, NVDA, TSLA, BTC/USD, ETH/USD]
+    allowed: [AAPL, MSFT, SPY, QQQ, NVDA, AMD, META, AMZN, GOOGL, TSLA, BTC/USD, ETH/USD]
     reason: "{symbol} is not on the approved list."
 
   - id: min_days_to_expiry
