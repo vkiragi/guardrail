@@ -21,9 +21,11 @@
     tbody tr { border-bottom: 1px solid #1c2027; }
     tr.approved { background: rgba(46, 160, 67, .12); }
     tr.blocked  { background: rgba(218, 54, 51, .12); }
+    tr.passed   { background: rgba(138, 143, 152, .07); }
     .tag { font-weight: 600; font-size: 12px; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
     .tag.approved { background: #2ea043; color: #fff; }
     .tag.blocked  { background: #da3633; color: #fff; }
+    .tag.passed   { background: #3d434c; color: #c9ced6; }
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; color: #b8bcc4; }
     .reason { color: #cfd3da; }
     .empty { color: #8a8f98; padding: 24px 10px; }
@@ -58,6 +60,15 @@
         ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
     }
 
+    const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    function prettySymbol(sym) {
+      // AAPL260911C00325000 -> AAPL $325 call · 11 Sep
+      const m = /^([A-Z]+)(\d{2})(\d{2})(\d{2})([CP])(\d{8})$/.exec(sym || "");
+      if (!m) return esc(sym);
+      const strike = (parseInt(m[6], 10) / 1000).toLocaleString(undefined, { maximumFractionDigits: 2 });
+      return `${esc(m[1])} $${strike} ${m[5] === "C" ? "call" : "put"} <span class="mono">· ${parseInt(m[4],10)} ${MONTHS[parseInt(m[3],10)-1]}</span>`;
+    }
+
     function render(decisions) {
       if (!decisions.length) {
         rowsEl.innerHTML = '<tr><td class="empty" colspan="8">No decisions yet.</td></tr>';
@@ -65,12 +76,13 @@
       }
       rowsEl.innerHTML = decisions.map(d => {
         const ok = d.allowed === 1;
-        const cls = ok ? "approved" : "blocked";
-        const tag = ok ? "APPROVED" : "BLOCKED";
+        const skipped = d.rule_id === "agent_skip";
+        const cls = ok ? "approved" : (skipped ? "passed" : "blocked");
+        const tag = ok ? "APPROVED" : (skipped ? "PASSED" : "BLOCKED");
         const order = d.order_id ? esc(d.order_id).slice(0, 8) : "—";
         return `<tr class="${cls}">
           <td class="mono">${esc(timeOf(d.ts))}</td>
-          <td>${esc(d.symbol)}</td>
+          <td>${prettySymbol(d.symbol)}</td>
           <td>${esc(d.side)}</td>
           <td class="mono">${esc(d.qty)}</td>
           <td class="reason">${esc(d.rationale)}</td>

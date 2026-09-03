@@ -74,7 +74,7 @@ def _trade(symbol: str, dry_run: bool) -> None:
 
     if direction == "skip":
         print(f"{symbol}: SKIP — {rationale}")
-        _log_refusal(symbol, f"Agent passed: {rationale}", "agent_skip", rationale)
+        _log_refusal(symbol, "No clear directional edge; agent passed.", "agent_skip", rationale)
         return
 
     contract = broker.pick_contract(symbol, direction)
